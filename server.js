@@ -59,9 +59,12 @@ if (!module.parent) {
 var socket = io.listen(app); 
 socket.on('connection', function(client){
 	console.log('New Connection!');
+	client.send({event: 'welcome!'});
+	
 	client.on('message', function(message){
 		console.log('Socket Connection got message: ' + message);
 	});
+	
 	client.on('disconnect', function(){
 		console.log('disconnected!');
 	});
