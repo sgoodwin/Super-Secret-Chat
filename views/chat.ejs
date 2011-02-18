@@ -5,7 +5,7 @@
 var socket = new io.Socket(null); 
 socket.connect();
 socket.on('connect', function(){
-	socket.send({event: 'loaded', handle: <%= handle %>});
+	socket.send({event: 'loaded', handle: "<%= handle %>"});
 });
 socket.on('message', function(message){
 	console.log('Message: ' + message);
