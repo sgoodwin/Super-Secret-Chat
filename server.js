@@ -63,13 +63,13 @@ socket.on('connection', function(client){
 	client.send({message: 'welcome!'});
 	
 	client.on('message', function(obj){
-		if(obj.handle){
+		if(obj.handle !== undefined){
 			handles[obj.handle] = client;
 			console.log('Added handle: ' + obj.handle);
 		}
 		
-		if(obj.target && obj.message){
-			console.log('message for ' + obj.target + ': ' + obj.message);
+		if(obj.target !== undefined && obj.message !== undefined){
+			console.log('message from ' + obj.handle + ' for ' + obj.target + ': ' + obj.message);
 		}
 	});
 	
