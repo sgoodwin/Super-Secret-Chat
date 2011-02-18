@@ -8,6 +8,7 @@ google.setOnLoadCallback(function() {
 		var d = new Date();
 		addMessage({ when: d.toString(), from: 'you', msg: val});
 		$('#text').value = '';
+		$('#target').value = '';
   }
 	function addMessage(obj){
 		var from = obj.from;
@@ -17,8 +18,8 @@ google.setOnLoadCallback(function() {
 	}
 	
 	function esc(msg){
-        return msg.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      };
+		return msg.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
 
 	var socket = new io.Socket(null); 
 	socket.connect();
@@ -39,6 +40,7 @@ google.setOnLoadCallback(function() {
 </ul>
 
 <form id="form" onsubmit="send();return false;">
-	target: <input type="text" value="Go" id="target" autocomplete="off" /><br/>
-	text: <input type="text" value="Go" id="text" autocomplete="off" />
+	target: <input type="text" id="target" autocomplete="off" /><br/>
+	text: <input type="text" id="text" autocomplete="off" /><br/>
+	<input type="submit" value="send" />
 </form>
