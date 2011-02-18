@@ -32,7 +32,7 @@ app.configure('production', function(){
 app.get('/', function(req, res){
   res.render('index', {
     locals: {
-      title: 'Express'
+      title: 'Super Secret Chat!'
     }
   });
 });
