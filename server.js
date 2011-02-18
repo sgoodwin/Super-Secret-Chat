@@ -63,7 +63,7 @@ socket.on('connection', function(client){
 	client.send({message: 'welcome!'});
 	
 	client.on('message', function(obj){
-		console.log('Obj: ' + sys.inspect(obj));
+		console.log('\r\nObj: ' + sys.inspect(obj));
 		if(obj.handle !== undefined){
 			handles[obj.handle] = client;
 			console.log('Added handle: ' + obj.handle);
