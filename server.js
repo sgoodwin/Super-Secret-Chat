@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'),
+    io = require('socket.io');
 
 var app = module.exports = express.createServer();
 
@@ -37,9 +38,31 @@ app.get('/', function(req, res){
   });
 });
 
+app.get('/chat', function(req, res){
+	var handle = req.param('handle');
+	res.render('chat', {
+		locals: {
+			title: 'Super Secret Chat!',
+			handle: handle
+		}
+	});
+});
+
 // Only listen on $ node app.js
 
 if (!module.parent) {
-  app.listen(process.env.PORT);
+  app.listen(process.env.PORT || 8000);
   console.log("Express server listening on port %d", app.address().port);
 }
+
+// socket.io 
+var socket = io.listen(app); 
+socket.on('connection', function(client){
+	console.log('New Connection!');
+	client.on('message', function(message){
+		console.log('Socket Connection got message: ' + message);
+	});
+	client.on('disconnect', function(){
+		console.log('disconnected!');
+	});
+});
