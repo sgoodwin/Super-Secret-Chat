@@ -2,13 +2,13 @@
 <script>
 google.setOnLoadCallback(function() {	
 	function send(){
-		var val = $('#text').value;
-		var target = $('#target').value;
+		var val = $('#text').val();
+		var target = $('#target').val();
 		socket.send({message: val, target: target, handle: '<%= handle %>'});
 		var d = new Date();
 		addMessage({ when: d.toString(), from: 'you', msg: val});
-		$('#text').value = '';
-		$('#target').value = '';
+		$('#text').val('');
+		$('#target').val('');
   }
 	function addMessage(obj){
 		var from = obj.from;
@@ -39,7 +39,7 @@ google.setOnLoadCallback(function() {
 <ul id="messageList">
 </ul>
 
-<form id="form" onsubmit="send();return false;">
+<form id="form" onsubmit="send(); return false;">
 	target: <input type="text" id="target" autocomplete="off" /><br/>
 	text: <input type="text" id="text" autocomplete="off" /><br/>
 	<input type="submit" value="send" />
