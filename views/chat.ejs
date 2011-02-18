@@ -39,7 +39,7 @@ google.setOnLoadCallback(function() {
 <ul id="messageList">
 </ul>
 
-<form id="form" onsubmit="send(); return false;">
+<form id="form" onsubmit="send(); return false;" method='post' data-remote='true'>
 	target: <input type="text" id="target" autocomplete="off" /><br/>
 	text: <input type="text" id="text" autocomplete="off" /><br/>
 	<input type="submit" value="send" />
