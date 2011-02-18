@@ -1,17 +1,44 @@
-<h3>Messages for: <%= handle %></h3>
-
 <script src="http://64.30.137.73/socket.io/socket.io.js"></script> 
-<script> 
-var socket = new io.Socket(null); 
-socket.connect();
-socket.on('connect', function(){
-	socket.send({event: 'loaded', handle: "<%= handle %>"});
+<script>
+google.setOnLoadCallback(function() {	
+	function send(){
+		var val = $('#text').value;
+		var target = $('#target').value;
+		socket.send({message: val, target: target});
+		var d = new Date();
+		addMessage({ when: d.toString(), from: 'you', msg: val});
+		$('#text').value = '';
+  }
+	function addMessage(obj){
+		var from = obj.from;
+		var when = obj.when;
+		var msg = esc(obj.message);
+		$('#messageList').append('<li> ' + from + '( ' + when + '): ' + msg + '</li>');
+	}
+	
+	function esc(msg){
+        return msg.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      };
+
+	var socket = new io.Socket(null); 
+	socket.connect();
+	socket.on('connect', function(){
+		socket.send({event: 'loaded', handle: "<%= handle %>"});
+	});
+	socket.on('message', function(message){
+		console.log('Message: ' + message.message);
+	});
+	socket.on('disconnect', function(){
+		console.log('disconnnect');
+	});
 });
-socket.on('message', function(message){
-	console.log('Message: ' + message);
-});
-socket.on('disconnect', function(){
-	console.log('disconnnect');
-});
-console.log('tried to connect with socket: ' + socket.connected.toString());
 </script>
+
+<h3>Messages for: <%= handle %></h3>
+<ul id="messageList">
+</ul>
+
+<form id="form" onsubmit="send();return false;">
+	target: <input type="submit" value="Go" id="target" autocomplete="off" /><br/>
+	text: <input type="submit" value="Go" id="text" autocomplete="off" />
+</form>

@@ -56,13 +56,21 @@ if (!module.parent) {
 }
 
 // socket.io 
-var socket = io.listen(app); 
+var socket = io.listen(app),
+		handles = {};
 socket.on('connection', function(client){
 	console.log('New Connection!');
-	client.send({event: 'welcome!'});
+	client.send({message: 'welcome!'});
 	
-	client.on('message', function(message){
-		console.log('Socket Connection got message: ' + sys.inspect(message));
+	client.on('message', function(obj){
+		if(obj.handle){
+			handles[obj.handle] = client;
+			console.log('Added handle: ' + obj.handle);
+		}
+		
+		if(obj.target && obj.message){
+			console.log('message for ' + obj.target + ': ' + obj.message);
+		}
 	});
 	
 	client.on('disconnect', function(){
