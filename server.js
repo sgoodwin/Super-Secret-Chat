@@ -4,9 +4,9 @@
  */
 
 var express = require('express'),
-    io = require('socket.io');
-
-var app = module.exports = express.createServer();
+    io = require('socket.io'),
+		sys = require('sys');
+		app = module.exports = express.createServer();
 
 // Configuration
 
@@ -62,7 +62,7 @@ socket.on('connection', function(client){
 	client.send({event: 'welcome!'});
 	
 	client.on('message', function(message){
-		console.log('Socket Connection got message: ' + message.toString());
+		console.log('Socket Connection got message: ' + sys.inspect(message));
 	});
 	
 	client.on('disconnect', function(){
