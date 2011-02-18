@@ -1,8 +1,8 @@
 <h3>Messages for: <%= handle %></h3>
 
-<script src="http://goodwinlabs.no.de/socket.io/socket.io.js"></script> 
+<script src="http://64.30.137.73/socket.io/socket.io.js"></script> 
 <script> 
-var socket = new io.Socket('http://goodwinlabs.no.de'); 
+var socket = new io.Socket(null); 
 socket.connect();
 socket.on('connect', function(){
 	socket.send({event: 'loaded', handle: <%= handle %>});
