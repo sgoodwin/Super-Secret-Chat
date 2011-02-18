@@ -10,6 +10,10 @@ google.setOnLoadCallback(function() {
 		$('#text').val('');
 		$('#target').val('');
   }
+	$(".button").click(function() {
+		send();
+	});
+	
 	function addMessage(obj){
 		var from = obj.from;
 		var when = obj.when;
@@ -39,8 +43,8 @@ google.setOnLoadCallback(function() {
 <ul id="messageList">
 </ul>
 
-<form id="form" onsubmit="send(); return false;" method='post' data-remote='true'>
+<form id="form" action="">
 	target: <input type="text" id="target" autocomplete="off" /><br/>
 	text: <input type="text" id="text" autocomplete="off" /><br/>
-	<input type="submit" value="send" />
+	<input class="button" type="submit" value="send" />
 </form>
