@@ -62,7 +62,7 @@ socket.on('connection', function(client){
 	client.send({event: 'welcome!'});
 	
 	client.on('message', function(message){
-		console.log('Socket Connection got message: ' + message);
+		console.log('Socket Connection got message: ' + message.toString());
 	});
 	
 	client.on('disconnect', function(){
