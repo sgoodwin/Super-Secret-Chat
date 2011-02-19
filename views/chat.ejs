@@ -5,10 +5,9 @@ google.setOnLoadCallback(function() {
 		var tex = $('#message').val();
 		$('#message').val('');
 		var target = $('#target').val();
-		console.log('sending : ' + tex);
 		var obj = {message: tex, target: target, handle: '<%= handle %>'};
 		socket.send(obj);
-		addMessage(obj);
+		addMessage({message: obj.message, target: obj.target, handle: obj.handle + ' to ' + obj.target});
 	}
 	
 	$(".button").click(function() {
@@ -47,7 +46,7 @@ google.setOnLoadCallback(function() {
 });
 </script>
 
-<h3>Messages for: <%= handle %></h3>
+<h3>Messages for: <%= handle %> (if you need someone to talk to, send messages to mukman, he's the guy who built this.)</h3>
 <ul id="messageList">
 </ul>
 

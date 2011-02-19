@@ -5,7 +5,8 @@
 
 var express = require('express'),
     io = require('socket.io'),
-		sys = require('sys');
+		sys = require('sys'),
+		async = require('async'),
 		app = module.exports = express.createServer();
 
 // Configuration
@@ -57,7 +58,8 @@ if (!module.parent) {
 
 // socket.io 
 var socket = io.listen(app),
-		handles = {};
+		handles = {},
+		messageQueue = {};
 socket.on('connection', function(client){
 	console.log('New Connection!');
 	client.send({handle: 'server', message: 'welcome!'});
@@ -66,6 +68,16 @@ socket.on('connection', function(client){
 		if(obj.handle !== undefined){
 			handles[obj.handle] = client;
 			console.log('Added handle ' + obj.handle);
+			if(messageQueue[obj.handle]){
+				console.log('messages in the queue for this guy!');
+				var i = 0;
+				var max = messageQueue[obj.handle].length;
+				for(i=0;i<max;i++){
+					var msgObj =  messageQueue[obj.handle][i];
+					console.log('sending message: ' + sys.inspect(msgObj));
+					client.send(msgObj);
+				}
+			}
 		}
 		
 		if(obj.target !== undefined && obj.message !== undefined){
@@ -73,6 +85,13 @@ socket.on('connection', function(client){
 			if(handles[obj.target]){
 				console.log('Target is online, sending message');
 				handles[obj.target].send(obj);
+			}else{
+				console.log('Target is not online, queueing up message');
+				console.log('existing messages: ' + sys.inspect(messageQueue[obj.target]));
+				if(!messageQueue[obj.target]){
+					messageQueue[obj.target] = [];
+				}
+				messageQueue[obj.target].push(obj);
 			}
 		}
 	});
