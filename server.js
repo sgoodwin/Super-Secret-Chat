@@ -60,17 +60,20 @@ var socket = io.listen(app),
 		handles = {};
 socket.on('connection', function(client){
 	console.log('New Connection!');
-	client.send({message: 'welcome!'});
+	client.send({handle: 'server', message: 'welcome!'});
 	
 	client.on('message', function(obj){
-		console.log('\r\nObj: ' + sys.inspect(obj));
 		if(obj.handle !== undefined){
 			handles[obj.handle] = client;
-			console.log('Added handle: ' + obj.handle);
+			console.log('Added handle ' + obj.handle);
 		}
 		
 		if(obj.target !== undefined && obj.message !== undefined){
 			console.log('message from ' + obj.handle + ' for ' + obj.target + ': ' + obj.message);
+			if(handles[obj.target]){
+				console.log('Target is online, sending message');
+				handles[obj.target].send(obj);
+			}
 		}
 	});
 	

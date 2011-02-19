@@ -2,22 +2,29 @@
 <script>
 google.setOnLoadCallback(function() {	
 	function send(){
-		var val = $('#text').val();
+		var tex = $('#message').val();
+		$('#message').val('');
 		var target = $('#target').val();
-		socket.send({message: val, target: target, handle: '<%= handle %>'});
-		var d = new Date();
-		addMessage({ when: d.toString(), from: 'you', msg: val});
-		$('#text').val('');
-		$('#target').val('');
-  }
+		console.log('sending : ' + tex);
+		var obj = {message: tex, target: target, handle: '<%= handle %>'};
+		socket.send(obj);
+		addMessage(obj);
+	}
+	
 	$(".button").click(function() {
 		send();
-		return false;
+	});
+	
+	$("#message").live('keypress', function(e){
+		if(e.keyCode == 13){
+			send();
+		}
 	});
 	
 	function addMessage(obj){
-		var from = obj.from;
-		var when = obj.when;
+		var from = obj.handle;
+		var d = new Date();
+		var when = obj.when || d.toString();
 		var msg = esc(obj.message);
 		$('#messageList').append('<li> ' + from + '( ' + when + '): ' + msg + '</li>');
 	}
@@ -31,8 +38,8 @@ google.setOnLoadCallback(function() {
 	socket.on('connect', function(){
 		socket.send({event: 'loaded', handle: "<%= handle %>"});
 	});
-	socket.on('message', function(message){
-		console.log('Message: ' + message.message);
+	socket.on('message', function(obj){
+		addMessage(obj);
 	});
 	socket.on('disconnect', function(){
 		console.log('disconnnect');
@@ -44,8 +51,8 @@ google.setOnLoadCallback(function() {
 <ul id="messageList">
 </ul>
 
-<form id="form" action="">
-	target: <input type="text" id="target" autocomplete="off" /><br/>
-	text: <input type="text" id="text" autocomplete="off" /><br/>
+<div id="form">
+	target: <input type="text" id="target" autocomplete="off" />
+	text: <input class="widebox" type="text" id="message" autocomplete="off" /><br/>
 	<input class="button" type="submit" value="send" />
-</form>
+</div>
