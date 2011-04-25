@@ -1,5 +1,6 @@
 // Brown bags are awesome.
 
+If you made some changes or whatever.
 // updated for the ticket I was working on ( # 237 )
 // Man also did some work and his work is cool too.
 /**
