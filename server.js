@@ -21,6 +21,7 @@ app.configure(function(){
   app.use(express.staticProvider(__dirname + '/public'));
 });
 
+// I made some changes.
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
