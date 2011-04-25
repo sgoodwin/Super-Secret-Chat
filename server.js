@@ -1,4 +1,4 @@
-
+// Brown bags are awesome.
 /**
  * Module dependencies.
  */
